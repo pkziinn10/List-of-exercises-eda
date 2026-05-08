@@ -90,5 +90,77 @@ public class LinkedList<Key extends Comparable<Key>, Value>{
         n++;
     }
 
-    
+    public void delete(Key K){
+        // Tratando o caso para se a chave for nula
+        if (K == null) return null;
+
+        Node anterior = null; // Criando o nó anterior
+        Node atual = first; // Criando o nó atual
+
+        // Verificando se a chave atual é maior que a chave removida
+        while (atual != null && K.compareTo(atual.K) > 0){
+            anterior = atual; // Se for, a gente so atualiza o valor do anterior com o nó atual
+            atual = atual.next; // E o proximo nó vai ser o atual
+        }
+
+        // Se encontrarmos a chave
+        if (atual != null && K.compareTo(atual.K) == 0){
+
+            // Verificamos se o anterior é nulo
+            if (anterior == null){
+                first = atual.next; // Se for, ent a chave excluida vai ser a primeira, recebendo ent o proximo nó
+            }else{
+                anterior.next = atual.next; // Se não for nulo, ent a gente salva como o proximo nó do anterior sera o proximo do nó atual
+            }
+            n--; // E decrementa a quantidade dos elementos
+        }
+    }
+
+    // Metodo para procura a menor chave
+    public Key min(){
+
+        // Verifica se a lista é vazia
+        if (isEmpty()) return null;
+
+        // Como a lista está ordenada, ent a chave min vai ser a primeira
+        return first.key;
+    }
+
+    // Metodo para procurar a maior chave
+    public Key max(){
+
+        // Verifica se a lista é vazia
+        if (isEmpty()) return null;
+
+        Node anterior = null; // Cria o nó anterior
+        Node atual = first; // Cria o nó atual
+
+        // Enquanto o valor do atual for diferente do nulo, a gente so vai passando
+        while (atual != null){
+            anterior = atual; // Atualiza o valor do anterior
+            atual = atual.next; // Atualiza o valor do atual
+        }
+        // Como saiu do loop, ent o atual é nulo, logo o anterior é o maior nó
+        return anterior.key;
+    }
+
+    public Key floor(Key K){
+        if (K == null || isEmpty()) return null;
+
+        Node anterior = null;
+        Node atual = first;
+
+        while (atual != null){
+            int cmp = K.compareTo(atual.K);
+
+            if (cmp == 0) return atual.K;
+
+            if (cmp < 0) break;
+
+            anterior = atual;
+            atual = atual.next;
+        }
+
+        return (anterior == null) ? null : anterior.K;
+    }
 }
