@@ -144,23 +144,73 @@ public class LinkedList<Key extends Comparable<Key>, Value>{
         return anterior.key;
     }
 
+    // Metodo para procurar a maior chave, menor que a chave que estamos procurando
     public Key floor(Key K){
+
+        // Verificando se a lista é vazia ou nao tem chave
         if (K == null || isEmpty()) return null;
 
-        Node anterior = null;
-        Node atual = first;
+        Node anterior = null; // Cria o nó anterior
+        Node atual = first; // Cria o nó atual
 
+        // Serve para procurar a chave que quermos saber o piso
         while (atual != null){
-            int cmp = K.compareTo(atual.K);
+            int cmp = K.compareTo(atual.K); // Criando uma variavel para a comparacao
 
-            if (cmp == 0) return atual.K;
+            if (cmp == 0) return atual.K; // Caso o resultado da variavel seja 0, ent achamos a chave que estavamos procurando
 
-            if (cmp < 0) break;
+            if (cmp < 0) break; // Se for menor, quer dizer que K já é menor que a chave atual, ent não precisa continuar
 
             anterior = atual;
             atual = atual.next;
         }
 
         return (anterior == null) ? null : anterior.K;
+    }
+
+    // Metodo para retornar a menor chave maior que a chave que queremos
+    public Key ceiling(Key K){
+
+        // Verificacao de chave nula ou lista vazia
+        if (K == null || isEmpty()) return null;
+
+        Node atual = first; // Cria o nó atual
+
+        // Procura o nó enquanto atual nao é nulo
+        while (atual != null){
+            int cmp = K.compareTo(atual.K);
+
+            if (cmp >= 0){ // Se na comparacao a chave que estamos procurando for maior ou igual a atual, retornamos ela
+                return K;
+            }
+
+            atual = atual.next; // Se nao a gente so passa para a proxima
+        }
+
+        return null;
+    }
+
+    public int rank(Key K){
+
+        // Verificando se a chave é nula ou se a lista é vazia
+        if (K == null || isEmpty()) return 0;
+
+        Node atual = first; // Cria o nó atual
+
+        int count = 0; // Cria um contador para auxiliar e mostrar a quantidade de nós menores
+
+        // Procura enquanto o nó nao é nulo
+        while (atual != null){
+            int cmp = K.compareTo(atual.K);
+
+            // Se a chave que estamos procurando for maior que a atual ainda, somamos o contador e passamos para a proxima
+            if (cmp > 0) {
+                count++;
+                atual = atual.next;
+            } else { 
+                break; // Caso a comparacao mostre que chave que procuramos é menor que a chave atual, ent paramos o sistema
+            }
+        } 
+        return count; // No final de tudo retornamos somente o contador
     }
 }
